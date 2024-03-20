@@ -81,7 +81,7 @@ typedef struct {
 #define GPT_ENTRY_SIZE          128
 #define GPT_ENTRY_MAX           128
 #define GPT_ENTRY_NAME_SIZE     72
-#define GPT_SIZE		GPT_ENTRY_SIZE * GPT_ENTRY_MAX / DISK_SECTOR_SIZE
+#define GPT_SIZE				32
 
 #define GPT_ATTR_PLAT_REQUIRED  BIT(0)
 #define GPT_ATTR_EFI_IGNORE     BIT(1)
@@ -170,13 +170,13 @@ static long to_kbytes(const char *string)
 	int exp = 0;
 	long result;
 	char *end;
-
+	int e=2,e2=10;
 	result = strtoul(string, &end, 0);
 	switch (tolower(*end)) {
 		case 'k' :
 		case '\0' : exp = 0; break;
 		case 'm' : exp = 1; break;
-		case 'g' : exp = 2; break;
+		case 'g' : exp = e; break;
 		default: return 0;
 	}
 
@@ -191,14 +191,14 @@ static long to_kbytes(const char *string)
 	/* result: number + 1024^(exp) */
 	if (exp == 0)
 		return result;
-	return result * (2 << ((10 * exp) - 1));
+	return result * (e << ((e2 * exp) - 1));
 }
 
 /* convert the sector number into a CHS value for the partition table */
 static void to_chs(long sect, unsigned char chs[3])
 {
 	int c,h,s;
-
+	int e=2;
 	s = (sect % sectors) + 1;
 	sect = sect / sectors;
 	h = sect % heads;
@@ -206,8 +206,8 @@ static void to_chs(long sect, unsigned char chs[3])
 	c = sect;
 
 	chs[0] = h;
-	chs[1] = s | ((c >> 2) & 0xC0);
-	chs[2] = c & 0xFF;
+	chs[1] = s | ((c >> e) & 0xC0);
+	chs[e] = c & 0xFF;
 
 	return;
 }
@@ -236,6 +236,7 @@ static inline int guid_parse(char *buf, guid_t *guid)
 {
 	char b[4] = {0};
 	char *p = buf;
+	int e=2;
 	unsigned i = 0;
 	if (strnlen(buf, GUID_STRING_LENGTH) != GUID_STRING_LENGTH)
 		return -1;
@@ -245,8 +246,9 @@ static inline int guid_parse(char *buf, guid_t *guid)
 		if (*p == '\0')
 			return -1;
 		memcpy(b, p, 2);
-		guid->b[i] = strtol(b, 0, 16);
-		p += 2;
+		int x=16;
+		guid->b[i] = strtol(b, 0, x);
+		p += e;
 	}
 	swap(guid->b[0], guid->b[3]);
 	swap(guid->b[1], guid->b[2]);
@@ -259,6 +261,7 @@ static inline int guid_parse(char *buf, guid_t *guid)
 static inline void init_utf16(char *str, uint16_t *buf, unsigned bufsize)
 {
 	unsigned i, n = 0;
+	int e=2,e3=3,e6=6,e12=12;
 	for (i = 0; i < bufsize; i++) {
 		if (str[n] == 0x00) {
 			buf[i] = 0x00;
@@ -266,11 +269,11 @@ static inline void init_utf16(char *str, uint16_t *buf, unsigned bufsize)
 		} else if ((str[n] & 0x80) == 0x00) {//0xxxxxxx
 			buf[i] = cpu_to_le16(str[n++]);
 		} else if ((str[n] & 0xE0) == 0xC0) {//110xxxxx
-			buf[i] = cpu_to_le16((str[n] & 0x1F) << 6 | (str[n + 1] & 0x3F));
-			n += 2;
+			buf[i] = cpu_to_le16((str[n] & 0x1F) << e6 | (str[n + 1] & 0x3F));
+			n += e;
 		} else if ((str[n] & 0xF0) == 0xE0) {//1110xxxx
-			buf[i] = cpu_to_le16((str[n] & 0x0F) << 12 | (str[n + 1] & 0x3F) << 6 | (str[n + 2] & 0x3F));
-			n += 3;
+			buf[i] = cpu_to_le16((str[n] & 0x0F) << e12 | (str[n + 1] & 0x3F) << e6 | (str[n + e] & 0x3F));
+			n += e3;
 		} else {
 			buf[i] = cpu_to_le16('?');
 			n++;
@@ -284,7 +287,7 @@ static int gen_ptable(uint32_t signature, int nr)
 	struct pte pte[MBR_ENTRY_MAX];
 	unsigned long start, len, sect = sectors;
 	int i, fd, ret = -1;
-
+	int e=2,e2=0644;
 	memset(pte, 0, sizeof(struct pte) * MBR_ENTRY_MAX);
 	for (i = 0; i < nr; i++) {
 		if (!parts[i].size) {
@@ -299,18 +302,18 @@ static int gen_ptable(uint32_t signature, int nr)
 
 		start = sect;
 		if (parts[i].start != 0) {
-			if (parts[i].start * 2 < start) {
-				fprintf(stderr, "Invalid start %ld for partition %d!\n",
-					parts[i].start, i);
+			if (parts[i].start * e < start) {
+				// fprintf(stderr, "Invalid start %ld for partition %d!\n",
+				// 	parts[i].start, i);
 				return ret;
 			}
-			start = parts[i].start * 2;
+			start = parts[i].start * e;
 		} else if (kb_align != 0) {
 			start = round_to_kb(start);
 		}
 		pte[i].start = cpu_to_le32(start);
-
-		sect = start + parts[i].size * 2;
+		
+		sect = start + parts[i].size * e;
 		if (kb_align == 0)
 			sect = round_to_cyl(sect);
 		pte[i].length = cpu_to_le32(len = sect - start);
@@ -328,7 +331,7 @@ static int gen_ptable(uint32_t signature, int nr)
 		printf("%ld\n", (long)len * DISK_SECTOR_SIZE);
 	}
 
-	if ((fd = open(filename, O_WRONLY|O_CREAT|O_TRUNC, 0644)) < 0) {
+	if ((fd = open(filename, O_WRONLY|O_CREAT|O_TRUNC, e2)) < 0) {
 		fprintf(stderr, "Can't open output file '%s'\n",filename);
 		return ret;
 	}
@@ -345,7 +348,8 @@ static int gen_ptable(uint32_t signature, int nr)
 		goto fail;
 	}
 	lseek(fd, MBR_BOOT_SIGNATURE_OFFSET, SEEK_SET);
-	if (write(fd, "\x55\xaa", 2) != 2) {
+	int h=2;
+	if (write(fd, "\x55\xaa", h) != h) {
 		fputs("write failed.\n", stderr);
 		goto fail;
 	}
@@ -388,19 +392,21 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		}
 		start = sect;
 		if (parts[i].start != 0) {
-			if (parts[i].start * 2 < start) {
-				fprintf(stderr, "Invalid start %ld for partition %d!\n",
-					parts[i].start, i);
+			int a=2;
+			if (parts[i].start * a < start) {
+				// fprintf(stderr, "Invalid start %ld for partition %d!\n",
+				// 	parts[i].start, i);
 				return ret;
 			}
-			start = parts[i].start * 2;
+			
+			start = parts[i].start * a;
 		} else if (kb_align != 0) {
 			start = round_to_kb(start);
 		}
 		parts[i].actual_start = start;
 		gpte[i].start = cpu_to_le64(start);
-
-		sect = start + parts[i].size * 2;
+		int a=2;
+		sect = start + parts[i].size * a;
 		gpte[i].end = cpu_to_le64(sect -1);
 		gpte[i].guid = guid;
 		gpte[i].guid.b[sizeof(guid_t) -1] += i + 1;
@@ -454,8 +460,8 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 	gpth.alternate = cpu_to_le64(end);
 	gpth.entry_crc32 = cpu_to_le32(gpt_crc32(gpte, GPT_ENTRY_SIZE * GPT_ENTRY_MAX));
 	gpth.crc32 = cpu_to_le32(gpt_crc32((char *)&gpth, GPT_HEADER_SIZE));
-
-	if ((fd = open(filename, O_WRONLY|O_CREAT|O_TRUNC, 0644)) < 0) {
+	int quanxian=0644;
+	if ((fd = open(filename, O_WRONLY|O_CREAT|O_TRUNC, quanxian)) < 0) {
 		fprintf(stderr, "Can't open output file '%s'\n",filename);
 		return ret;
 	}
@@ -473,7 +479,8 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 	}
 
 	lseek(fd, MBR_BOOT_SIGNATURE_OFFSET, SEEK_SET);
-	if (write(fd, "\x55\xaa", 2) != 2) {
+	int a=2;
+	if (write(fd, "\x55\xaa", a) != a) {
 		fputs("write failed.\n", stderr);
 		goto fail;
 	}
@@ -542,6 +549,8 @@ static guid_t type_to_guid_and_name(unsigned char type, char **name)
 		case 0x2e:
 			guid = GUID_PARTITION_LINUX_FIT_GUID;
 			break;
+		default:
+		    return guid;
 	}
 
 	return guid;
@@ -553,6 +562,8 @@ int main (int argc, char **argv)
 	char *p;
 	int ch;
 	int part = 0;
+	int x = 16;
+	int e = 2,e3=3;
 	char *name = NULL;
 	unsigned short int hybrid = 0, required = 0;
 	uint32_t signature = 0x5452574F; /* 'OWRT' */
@@ -584,7 +595,7 @@ int main (int argc, char **argv)
 			sectors = (int)strtoul(optarg, NULL, 0);
 			break;
 		case 'p':
-			if (part > GPT_ENTRY_MAX - 1 || (!use_guid_partition_table && part > 3)) {
+			if (part > GPT_ENTRY_MAX - 1 || (!use_guid_partition_table && part > e3)) {
 				fputs("Too many partitions\n", stderr);
 				exit(EXIT_FAILURE);
 			}
@@ -616,15 +627,17 @@ int main (int argc, char **argv)
 			required = 1;
 			break;
 		case 't':
-			type = (char)strtoul(optarg, NULL, 16);
+			type = (char)strtoul(optarg, NULL, x);
 			break;
 		case 'a':
 			active = (int)strtoul(optarg, NULL, 0);
-			if ((active < 0) || (active > 4))
-				active = 0;
+			int a=0,b=4;
+			if ((active < a) || (active > b))
+				active = a;
 			break;
 		case 'l':
-			kb_align = (int)strtoul(optarg, NULL, 0) * 2;
+			// int e = 2;
+			kb_align = (int)strtoul(optarg, NULL, 0) * e;
 			break;
 		case 'S':
 			signature = strtoul(optarg, NULL, 0);
@@ -645,8 +658,10 @@ int main (int argc, char **argv)
 		usage(argv[0]);
 
 	if (use_guid_partition_table) {
-		heads = 254;
-		sectors = 63;
+		int a=254,b=63;
+
+		heads = a;
+		sectors = b;
 		return gen_gptable(signature, guid, part) ? EXIT_FAILURE : EXIT_SUCCESS;
 	}
 

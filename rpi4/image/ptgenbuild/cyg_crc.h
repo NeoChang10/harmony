@@ -52,24 +52,22 @@
 //
 //==========================================================================
 
-#ifndef _SERVICES_CRC_CRC_H_
-#define _SERVICES_CRC_CRC_H_
+// #ifndef _SERVICES_CRC_CRC_H_
+// #define _SERVICES_CRC_CRC_H_
 
-#if 0
-#include <cyg/infra/cyg_type.h>
-#else
+
 #include <stdint.h>
 typedef uint32_t cyg_uint32;
 typedef uint16_t cyg_uint16;
-#endif
 
-#ifndef __externC
-# ifdef __cplusplus
-#  define __externC extern "C"
-# else
+
+// #ifndef __externC
+// # ifdef __cplusplus
+// #  define __externC extern "C"
+// # else
 #  define __externC extern
-# endif
-#endif
+// # endif
+// #endif
 
 // Compute a CRC, using the POSIX 1003 definition
 
@@ -103,7 +101,7 @@ cyg_ether_crc32_accumulate(cyg_uint32 crc, void *s, int len);
 __externC cyg_uint16
 cyg_crc16(void *s, int len);
 
-#endif // _SERVICES_CRC_CRC_H_
+// #endif // _SERVICES_CRC_CRC_H_
 
 
 
