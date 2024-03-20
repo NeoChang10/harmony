@@ -47,13 +47,6 @@ ohos_prebuilt_etc("fstab.required") {
   install_enable = true
 }
 
-ohos_prebuilt_executable("init.modprobe.sh") {
-  install_enable = true
-  source = "init.modprobe.sh"
-  module_install_dir = "etc/init"
-  install_images = [ vendor_base_dir ]
-  part_name = "raspberrypi_products"
-}
 
 group("init_configs") {
   deps = [
@@ -62,6 +55,5 @@ group("init_configs") {
     ":init.without_two_stages.cfg",
     ":init.rpi4.cfg",
     ":init.rpi4.usb.cfg",
-    ":init.modprobe.sh",
   ]
 }
