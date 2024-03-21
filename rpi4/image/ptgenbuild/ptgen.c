@@ -245,7 +245,7 @@ static inline int guid_parse(char *buf, guid_t *guid)
 			p++;
 		if (*p == '\0')
 			return -1;
-		memcpy(b, p, 2);
+		memcpy(b, p, e);
 		int x=16;
 		guid->b[i] = strtol(b, 0, x);
 		p += e;
@@ -293,7 +293,6 @@ static int gen_ptable(uint32_t signature, int nr)
 		if (!parts[i].size) {
 			if (ignore_null_sized_partition)
 				continue;
-			fprintf(stderr, "Invalid size in partition %d!\n", i);
 			return ret;
 		}
 
@@ -303,8 +302,6 @@ static int gen_ptable(uint32_t signature, int nr)
 		start = sect;
 		if (parts[i].start != 0) {
 			if (parts[i].start * e < start) {
-				// fprintf(stderr, "Invalid start %ld for partition %d!\n",
-				// 	parts[i].start, i);
 				return ret;
 			}
 			start = parts[i].start * e;
@@ -387,15 +384,12 @@ static int gen_gptable(uint32_t signature, guid_t guid, unsigned nr)
 		if (!parts[i].size) {
 			if (ignore_null_sized_partition)
 				continue;
-			fprintf(stderr, "Invalid size in partition %d!\n", i);
 			return ret;
 		}
 		start = sect;
 		if (parts[i].start != 0) {
 			int a=2;
 			if (parts[i].start * a < start) {
-				// fprintf(stderr, "Invalid start %ld for partition %d!\n",
-				// 	parts[i].start, i);
 				return ret;
 			}
 			
@@ -636,7 +630,6 @@ int main (int argc, char **argv)
 				active = a;
 			break;
 		case 'l':
-			// int e = 2;
 			kb_align = (int)strtoul(optarg, NULL, 0) * e;
 			break;
 		case 'S':
