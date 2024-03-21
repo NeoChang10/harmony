@@ -1,13 +1,3 @@
-//==========================================================================
-//
-//      crc32.c
-//
-//      Gary S. Brown's 32 bit CRC
-//
-//==========================================================================
-//####ECOSGPLCOPYRIGHTBEGIN####
-// -------------------------------------------
-// This file is part of eCos, the Embedded Configurable Operating System.
 // Copyright (C) 1998, 1999, 2000, 2001, 2002 Red Hat, Inc.
 // Copyright (C) 2002 Gary Thomas
 // Copyright (c) 2024 Institute of Software, Chinese Academy of Sciences. 
@@ -37,22 +27,6 @@
 //
 // Alternative licenses for eCos may be arranged by contacting Red Hat, Inc.
 // at http://sources.redhat.com/ecos/ecos-license/
-// -------------------------------------------
-//####ECOSGPLCOPYRIGHTEND####
-//==========================================================================
-//#####DESCRIPTIONBEGIN####
-//
-// Author(s):    gthomas
-// Contributors: gthomas,asl
-// Date:         2001-01-31
-// Purpose:      
-// Description:  
-//              
-// This code is part of eCos (tm).
-//
-//####DESCRIPTIONEND####
-//
-//==========================================================================
 
 #include "cyg_crc.h"
 
