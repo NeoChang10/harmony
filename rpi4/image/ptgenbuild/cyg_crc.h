@@ -1,5 +1,3 @@
-//####ECOSGPLCOPYRIGHTBEGIN####
-// -------------------------------------------
 // This file is part of eCos, the Embedded Configurable Operating System.
 // Copyright (C) 2002 Andrew Lunn
 //
@@ -28,22 +26,6 @@
 //
 // Alternative licenses for eCos may be arranged by contacting Red Hat, Inc.
 // at http://sources.redhat.com/ecos/ecos-license/
-// -------------------------------------------
-//####ECOSGPLCOPYRIGHTEND####
-//==========================================================================
-//#####DESCRIPTIONBEGIN####
-//
-// Author(s):    Andrew Lunn
-// Contributors: Andrew Lunn
-// Date:         2002-08-06
-// Purpose:
-// Description:
-//
-// This code is part of eCos (tm).
-//
-//####DESCRIPTIONEND####
-//
-//==========================================================================
 
 
 #include <stdint.h>
