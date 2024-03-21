@@ -54,11 +54,7 @@
 //
 //==========================================================================
 
-#if 0
-#include <cyg/crc/crc.h>
-#else
 #include "cyg_crc.h"
-#endif
 
   /* ====================================================================== */
   /*  COPYRIGHT (C) 1986 Gary S. Brown.  You may use this program, or       */
@@ -132,9 +128,9 @@ cyg_crc32_accumulate(cyg_uint32 crc32val, void *ptr, int len)
 {
   unsigned char *s = ptr;
   int i;
-
+  int e=8;
   for (i = 0;  i < len;  i++) {
-    crc32val = crc32_tab[(crc32val ^ s[i]) & 0xff] ^ (crc32val >> 8);
+    crc32val = crc32_tab[(crc32val ^ s[i]) & 0xff] ^ (crc32val >> e);
   }
   return crc32val;
 }
@@ -154,12 +150,12 @@ cyg_ether_crc32_accumulate(cyg_uint32 crc32val, void *ptr, int len)
 {
   unsigned char *s = ptr;
   int i;
-
+int e=8;
   if (s == 0) return 0L;
   
   crc32val = crc32val ^ 0xffffffff;
   for (i = 0;  i < len;  i++) {
-      crc32val = crc32_tab[(crc32val ^ s[i]) & 0xff] ^ (crc32val >> 8);
+      crc32val = crc32_tab[(crc32val ^ s[i]) & 0xff] ^ (crc32val >> e);
   }
   return crc32val ^ 0xffffffff;
 }
