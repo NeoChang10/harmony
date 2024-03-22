@@ -35,7 +35,7 @@ action("rpi_image") {
   deps = [ 
   ":rpi4_bootimg",
   "//build/core/gn:images",
-  ":ptgen($host_toolchain)"
+  "//device/soc/broadcom/common:software_group"
    ]
   script = "make_rpi_sdcard_image.py"
   outputs = [ "$root_build_dir/packages/phone/images/rpi_image.img" ]
