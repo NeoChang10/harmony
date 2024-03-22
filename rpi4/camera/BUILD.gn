@@ -107,7 +107,6 @@ group("chipset_build") {
     ":config.c",
     ":ipp_algo_config.hcb",
     ":params.c",
-    "$board_camera_path/pipeline_core:camera_ipp_algo_example",
     "//drivers/peripheral/camera/hal/adapter/platform/v4l2/src/driver_adapter:camera_v4l2_adapter",
     "//drivers/peripheral/camera/hal/adapter/platform/v4l2/src/driver_adapter/main_test:v4l2_main",
   ]
