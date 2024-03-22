@@ -43,17 +43,6 @@ action("check_patch") {
   ]
 }
 
-action("check_build") {
-  script = "check_build.sh"
-  sources = [ kernel_source_dir ]
-  outputs = [ "$root_build_dir/kernel.timestamp" ]
-  args = [
-    rebase_path(kernel_source_dir, root_build_dir),
-    rebase_path("$root_build_dir/packages/phone/images/$kernel_image"),
-    rebase_path("$root_build_dir/kernel.timestamp"),
-  ]
-}
-
 action("rpi4_build_kernel") {
     script = "make_kernel.sh"
     sources = [ kernel_source_dir ]
@@ -78,7 +67,6 @@ action("rpi4_build_kernel") {
 
     print("kernel args=$args")
     deps = [
-      ":check_build",
       ":check_patch",
     ]
 }
