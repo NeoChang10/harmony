@@ -23,7 +23,8 @@ KERNEL_SRC_TMP_PATH=${OUT_DIR}/kernel/src_tmp/${KERNEL_VERSION}
 PATCHES_PATH=${PROJECT_ROOT}/device/board/iscas/rpi4/patches
 HDF_PATCH_FILE=${PATCHES_PATH}/hdf.patch
 KERNEL_PATCH=${PATCHES_PATH}/rpi4.patch
-
+KERNEL_PATCH_PATH=${PROJECT_ROOT}/kernel/linux/patches/${KERNEL_VERSION}
+DEVICE_NAME=rpi4
 if [ ! -d "${KERNEL_SRC_TMP_PATH}" ];then
     mkdir -p ${KERNEL_SRC_TMP_PATH}
     cp -arfL ${KERNEL_SRC_PATH}/* ${KERNEL_SRC_TMP_PATH}/
@@ -31,7 +32,7 @@ if [ ! -d "${KERNEL_SRC_TMP_PATH}" ];then
     cd ${KERNEL_SRC_TMP_PATH}
 
     #hdf patch 打入HDF补丁
-    bash ${PATCHES_PATH}/hdf_patch.sh ${PROJECT_ROOT} ${KERNEL_SRC_TMP_PATH} ${HDF_PATCH_FILE}
+    bash ${PROJECT_ROOT}/drivers/hdf_core/adapter/khdf/linux/patch_hdf.sh ${PROJECT_ROOT} ${KERNEL_SRC_TMP_PATH} ${KERNEL_PATCH_PATH} ${DEVICE_NAME}
 
     #kernel patch
     patch -p1 < ${KERNEL_PATCH}
