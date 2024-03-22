@@ -163,17 +163,3 @@ config("example_config") {
     "-Wno-unused-parameter",
   ]
 }
-
-ohos_shared_library("camera_ipp_algo_example") {
-  sources = [ "src/ipp_algo_example/ipp_algo_example.c" ]
-
-  include_dirs = [
-    "$camera_path/pipeline_core/ipp/include",
-    "//commonlibrary/c_utils/base/include",
-  ]
-  external_deps = [ "c_utils:utils" ]
-  public_configs = [ ":example_config" ]
-  install_images = [ chipset_base_dir ]
-  subsystem_name = "hdf"
-  part_name = "drivers_peripheral_camera"
-}
