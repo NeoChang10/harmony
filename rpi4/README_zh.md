@@ -13,22 +13,17 @@
 安装命令如下：
 
 ```
-sudo apt update&&sudo apt install -y git git-lfs curl python3 python3-pip default-jdk device-tree-compiler cpio bison ccache ruby flex libtinfo5 xorg-dev libssl-dev bc dosfstools mtools
-```
-
-如果使用docker可以使用一下命令：
-```
 apt update&&apt-get install -y git git-lfs curl python3 python3-pip default-jdk device-tree-compiler cpio bison ccache ruby flex libtinfo5 xorg-dev libssl-dev bc dosfstools mtools
 ```
 
 **说明：** 
-以上安装命令适用于Ubuntu20.04，其它版本请根据安装包名称采用对应的安装命令。
+以上安装命令适用于Ubuntu20.04的docker。
 
 **2、获取标准系统源码**
 
 **前提条件**
 
-1）注册码云gitee账号并配置用户信息
+1）注册git账号并配置用户信息
 ```
 git config --global user.name "yourname"
 
@@ -46,7 +41,7 @@ curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 | sudo tee /usr/local
 通过repo + https 下载。
 
 ```
-repo init -u https://gitee.com/zhengsenwen/manifest.git -b OpenHarmony-3.2-Release --no-repo-verify 
+repo init -u https://gitee.com/openharmony-sig/manifest.git -b master -m devboard_rpi4b.xml --no-repo-verify 
 
 repo sync -c
 
@@ -65,8 +60,6 @@ repo forall -c 'git lfs pull'
 **二、编译和烧录**
 
 **1、编译**
-
-在Linux环境进行如下操作:
 
 进入源码根目录，执行如下命令进行版本编译。
 先输入：
@@ -110,7 +103,9 @@ out/rpi4/packages/phone/images/ 目录下。
 使用HDC工具(命令)：
 ```
 
-hdc连接：插入网线获取到设备ip地址，在电脑命令行中输入hdc tconn 设备ip地址：5555，输出Connect OK即连接成功。
+hdc连接：插入网线获取到设备ip地址，在电脑命令行中输入:
+    hdc tconn {设备ip地址}：5555
+输出Connect OK即连接成功。
 
 (1)hdc_std shell:进入命令行
 (2)hdc_std file send {本地系统文件路径} {oh系统文件路径}:发送文件
