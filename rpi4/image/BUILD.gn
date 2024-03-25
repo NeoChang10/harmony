@@ -22,15 +22,6 @@ action("rpi4_bootimg") {
     args = [ "bootimg", rebase_path("$root_build_dir/packages/phone") ]
 }
 
-
-ohos_executable("ptgen") {
-  sources = [ "ptgen.c" ]
-  install_enable = false
-  subsystem_name = "utils"
-}
-
-
-
 action("rpi_image") {
   deps = [ 
   ":rpi4_bootimg",

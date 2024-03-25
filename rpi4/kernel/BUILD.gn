@@ -28,7 +28,6 @@ group("rpi4_kernel") {
 
     deps = [
       ":check_patch",
-      ":check_build",
       ":rpi4_build_kernel",
     ]
 }
