@@ -12,18 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-KERNEL_CONFIG_PATH = $(PROJECT_ROOT)/device/board/iscas/rpi4/kernel/configs
-export INSTALL_MOD_PATH := $(PROJECT_ROOT)/device/board/iscas/rpi4/modules
+KERNEL_CONFIG_PATH = $(PROJECT_ROOT)/device/board/iscas/common/kernel/configs
 PREBUILTS_GCC_DIR := $(PROJECT_ROOT)/prebuilts/gcc
-PREBUILTS_CLANG_DIR := $(PROJECT_ROOT)/prebuilts/clang
 CLANG_HOST_TOOLCHAIN := $(PROJECT_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin
-KERNEL_HOSTCC := $(CLANG_HOST_TOOLCHAIN)/clang
 CLANG_CC := $(CLANG_HOST_TOOLCHAIN)/clang
 
 KERNEL_PREBUILT_MAKE := make
 DTB := dtb
 DTBS_ARCH := arm
-DTBS := bcm2711-rpi-4-b.dtb overlays/vc4-fkms-v3d.dtbo overlays/rpi-ft5406.dtbo overlays/rpi-backlight.dtbo overlays/dwc2.dtbo
+DTBS := bcm2710-rpi-3-b.dtb bcm2711-rpi-4-b.dtb overlays/vc4-fkms-v3d.dtbo overlays/rpi-ft5406.dtbo overlays/rpi-backlight.dtbo overlays/dwc2.dtbo
 
 KERNEL_TARGET_TOOLCHAIN_32 := $(PREBUILTS_GCC_DIR)/linux-x86/arm/gcc-linaro-7.5.0-arm-linux-gnueabi/bin/arm-linux-gnueabi-
 

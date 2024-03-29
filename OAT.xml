@@ -59,6 +59,10 @@
                 <policyitem type="copyright" name="Institute of Software, CAS." path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Developed By ISCAS"/> 
                 <policyitem type="copyright" name="Institute of Software, Chinese Academy of Sciences." path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Developed By ISCAS"/>  
                 <policyitem type="copyright" name="Red Hat, Inc." path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Red Hat"/>
+                <policyitem type="copyright" name="Gary Thomas" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Gary Thomas"/>
+                <policyitem type="copyright" name="by Felix Fietkau &lt;nbd@nbd.name&gt;" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="by Felix Fietkau"/>
+                <policyitem type="copyright" name="by David Roetzel &lt;david@roetzel.de&gt;" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="by David Roetzel"/>
+                <policyitem type="copyright" name="Andrew Lunn" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Andrew Lunn"/>
                 <policyitem type="copyright" name="Diemit &lt;598757652@qq.com&gt;" path=".*" rule="may" group="defaultGroup" filefilter="copyrightPolicyFilter" desc="Diemit"/>
                        
 

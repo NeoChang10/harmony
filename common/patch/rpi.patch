@@ -1,7 +1,7 @@
 From b0e9a46efaf054ad238fe5b2f1aaa1f8ae4483a1 Mon Sep 17 00:00:00 2001
 From: diemit <598757652@qq.com>
 Date: Thu, 9 Feb 2023 00:14:18 +0900
-Subject: [PATCH] rpi4 patch
+Subject: [PATCH] rpi3 patch
 
 Change-Id: I7331e029feb944bbfcc3fab3dbae5afaa1beea38
 ---
@@ -7383,7 +7383,7 @@ index 167538518..fb44c89f3 100644
  
 +&rmem {
 +	/*
-+	 * RPi4's co-processor will copy the board's bootloader configuration
++	 * rpi3's co-processor will copy the board's bootloader configuration
 +	 * into memory for the OS to consume. It'll also update this node with
 +	 * its placement information.
 +	 */
@@ -7940,7 +7940,7 @@ index 000000000..ec0c75810
 +
 +&rmem {
 +	/*
-+	 * RPi4's co-processor will copy the board's bootloader configuration
++	 * rpi3's co-processor will copy the board's bootloader configuration
 +	 * into memory for the OS to consume. It'll also update this node with
 +	 * its placement information.
 +	 */
@@ -8593,7 +8593,7 @@ index 000000000..5dbd1b772
 +
 +&rmem {
 +	/*
-+	 * RPi4's co-processor will copy the board's bootloader configuration
++	 * rpi3's co-processor will copy the board's bootloader configuration
 +	 * into memory for the OS to consume. It'll also update this node with
 +	 * its placement information.
 +	 */
@@ -9163,7 +9163,7 @@ index 000000000..f90785abc
 +
 +&rmem {
 +	/*
-+	 * RPi4's co-processor will copy the board's bootloader configuration
++	 * rpi3's co-processor will copy the board's bootloader configuration
 +	 * into memory for the OS to consume. It'll also update this node with
 +	 * its placement information.
 +	 */
@@ -92371,7 +92371,7 @@ index 0526a9cf6..fa57d853b 100644
  	bool disable_wifi_frequencies;
  
 +	/*
-+	 * Even if HDMI0 on the RPi4 can output modes requiring a pixel
++	 * Even if HDMI0 on the rpi3 can output modes requiring a pixel
 +	 * rate higher than 297MHz, it needs some adjustments in the
 +	 * config.txt file to be able to do so and thus won't always be
 +	 * available.

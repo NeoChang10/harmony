@@ -1,38 +1,36 @@
 # device_board_iscas
 
-## Description
+#### Description
+{**When you're done, you can delete the content in this README and update the file with details for others getting started with your repository**}
 
-#### Introduction to ISCAS
+#### Software Architecture
+Software architecture description
 
-The mission of the Intelligent Software Research Center (ISRC) of the Institute of Software of the Chinese Academy of Sciences (ISCAS) is to drive the development of intelligent software and support intelligent innovation with software. Facing the development trend of intelligent computing, aiming at the needs of high performance, high security, low power consumption and low latency, we will study the basic theory and model of intelligence, new software structure and compilation construction method, kernel and runtime environment, etc., build operating systems and compilation tool chains suitable for general processors, smart chips and open instruction sets, and build reliable supply chain and security vulnerability platform for open source software. Develop intelligent unmanned system simulation test environment to support intelligent computing ecology and important industry applications.
+#### Installation
 
-#### Board Description
+1.  xxxx
+2.  xxxx
+3.  xxxx
 
-- [Raspberry Pi]
+#### Instructions
 
-Raspberry Pi is an ARM-based microcomputer motherboard with SD/MicroSD card as the memory hard disk, the card motherboard is surrounded by 1/2/4 USB ports and A 10/100 Ethernet port (Model A has no network port), and can connect to the keyboard, mouse and network cable. At the same time has a video analog signal TV output interface and HDMI high-definition video output interface.
+1.  xxxx
+2.  xxxx
+3.  xxxx
 
+#### Contribution
 
-- [Raspberry Pi 4 Model B]
-
-Raspberry Pi 4 Model B. At present, this version has passed the compatibility certification of the 3.2.4Release version, is adapted to the Wifi function, supports HDMI display, and can use GPU rendering.
-
-## Directory
-
-```
-device/board/iscas
-├── rpi4                                # Raspberry Pi 4 Model B
-└── ...
-```
-
-## 使用说明
+1.  Fork the repository
+2.  Create Feat_xxx branch
+3.  Commit your code
+4.  Create Pull Request
 
 
-Raspberry Pi 4B reference：
-- [Raspberry Pi 4B](https://gitee.com/openharmony-sig/device_board_rpi/blob/OpenHarmony-3.2-Release/rpi4/README_zh.md)
+#### Gitee Feature
 
-
-## Related code repository
-
-* [vendor\iscas](https://gitee.com/openharmony-sig/vendor_iscas)
-* [device\soc\broadcom](https://gitee.com/openharmony-sig/device_soc_broadcom)
+1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
+2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
+3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
+4.  The most valuable open source project [GVP](https://gitee.com/gvp)
+5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
+6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
