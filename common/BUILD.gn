@@ -1,4 +1,3 @@
-# Copyright (c) 2021 HiHope Open Source Organization .
 # Copyright (c) 2024 Institute of Software, Chinese Academy of Sciences. 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,29 +14,21 @@
 import("//build/config/clang/clang.gni")
 import("//build/ohos.gni")
 
-action("rpi4_bootimg") {
-  deps=["../kernel:rpi4_kernel"]
-    script = "build_bootimg.py"
+action("rpi_bootimg") {
+  deps=["../common/kernel:rpi_build_kernel"]
+    script = "../common/build_bootimg.py"
     outputs = [ "$root_build_dir/packages/phone/images/boot.img" ]
-    args = [ "bootimg", rebase_path("$root_build_dir/packages/phone") ]
+    args = [ rebase_path("$root_build_dir/packages/phone"),rebase_path("//device/board/iscas/$product_name/rpiboot") ]
 }
-
-
-ohos_executable("ptgen") {
-  sources = [ "ptgen.c" ]
-  install_enable = false
-  subsystem_name = "utils"
-}
-
 
 
 action("rpi_image") {
   deps = [ 
-  ":rpi4_bootimg",
+  ":rpi_bootimg",
   "//build/core/gn:images",
   "//device/soc/broadcom/common:software_group"
    ]
-  script = "make_rpi_sdcard_image.py"
+  script = "../common/make_rpi_sdcard_image.py"
   outputs = [ "$root_build_dir/packages/phone/images/rpi_image.img" ]
   args = [
     "--output",
@@ -48,5 +39,7 @@ action("rpi_image") {
     rebase_path("$root_build_dir/packages/phone/images/system.img"),
     rebase_path("$root_build_dir/packages/phone/images/vendor.img"),
     rebase_path("$root_build_dir/packages/phone/images/userdata.img"),
+    "--ptpath",
+    rebase_path("$root_build_dir/clang_x64/utils/utils")
   ]
 }

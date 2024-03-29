@@ -61,7 +61,7 @@ def copy_partition_to_image(image_writer, partition, offset, partsize):
                 image_writer.seek(rlen, 1)
             copyed += rlen
 
-def make_raspberry_image(output, userdata_size, partition_images):
+def make_raspberry_image(output, userdata_size, ptpath,partition_images):
     try:
         os.unlink(output)
     except FileNotFoundError:
@@ -71,7 +71,7 @@ def make_raspberry_image(output, userdata_size, partition_images):
     partition_sizes = tuple((os.stat(img).st_size+1023)//1024 for img in partition_images)
     p1, p2, p3, p4 = partition_sizes
     output_tmp = output + '.tmp'
-    ptpath="../../out/rpi4/clang_x64/utils/utils"
+    # ptpath="../../out/rpi4/clang_x64/utils/utils"
     ptgen_cmd = F'{ptpath}/ptgen -o {output_tmp} -l 1024 -s 63 -h 256 -a 1 -t 0c -p {p1} -t 83 -p {p2} -p {p3} -p {p4}'
     ptgen_result = subprocess.run(ptgen_cmd, shell=True, check=True, stdout=subprocess.PIPE).stdout
     ptgen_result = tuple(int(n) for n in ptgen_result.decode().strip().split('\n'))
@@ -83,6 +83,7 @@ def make_raspberry_image(output, userdata_size, partition_images):
     os.rename(output_tmp, output)
 
 parser = OptionParser()
+parser.add_option('-p', '--ptpath', help='ptgen path')
 parser.add_option('-o', '--output', help='output image')
 parser.add_option('-u', '--userdata', help='userdata size')
 (options, args) = parser.parse_args()
@@ -94,5 +95,5 @@ if len(args) != 4:
 userdata_size = None
 if options.userdata:
     userdata_size = str2bytes(options.userdata)
-make_raspberry_image(options.output, userdata_size, args)
+make_raspberry_image(options.output, userdata_size, options.ptpath,args)
 

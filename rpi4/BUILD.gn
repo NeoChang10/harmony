@@ -17,9 +17,9 @@ print("rpi4_group in")
 group("rpi4_group") {
   deps = [
     "cfg:init_configs",
-    "distributedhardware:distributedhardware",
+    "../common/distributedhardware:distributedhardware",
     "//device/soc/broadcom/bcm2711/hardware:hardware_group",
-    "//vendor/iscas/rpi4/bluetooth:libbt_vendor",
-    "//vendor/${product_company}/rpi4/sample:sample_group"
+    "//vendor/iscas/common/bluetooth:libbt_vendor",
+    "//vendor/iscas/common/sample:sample_group"
   ]
 }

@@ -26,8 +26,14 @@ export KERNEL_SRC_TMP_PATH=${PROJECT_ROOT}/out/kernel/src_tmp/${KERNEL_VERSION}
 export KERNEL_OBJ_TMP_PATH=${PROJECT_ROOT}/out/kernel/OBJ/${KERNEL_VERSION}
 export KERNEL_IMAGE_FILE=${KERNEL_OBJ_TMP_PATH}/arch/${KERNEL_ARCH}/boot/${KERNEL_IMAGE}
 
-LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/rpi4/kernel/make_kernel.mk
-LINUX_dtb_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/rpi4/kernel/make_dtb.mk
+if [ $KERNEL_ARCH == "arm" ];then
+    LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/common/kernel/make_kernel_32.mk
+else
+    LINUX_KERNEL_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/common/kernel/make_kernel_64.mk
+fi
+
+
+LINUX_dtb_MAKEFILE=${PROJECT_ROOT}/device/board/iscas/common/kernel/make_dtb.mk
 
 rm -f ${KERNEL_IMAGE_FILE}
 
