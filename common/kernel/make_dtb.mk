@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-KERNEL_CONFIG_PATH = $(PROJECT_ROOT)/device/board/iscas/common/kernel/configs
+KERNEL_CONFIG_PATH = $(PROJECT_ROOT)/device/board/rpi/common/kernel/configs
 PREBUILTS_GCC_DIR := $(PROJECT_ROOT)/prebuilts/gcc
 CLANG_HOST_TOOLCHAIN := $(PROJECT_ROOT)/prebuilts/clang/ohos/linux-x86_64/llvm/bin
 CLANG_CC := $(CLANG_HOST_TOOLCHAIN)/clang

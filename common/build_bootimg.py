@@ -64,6 +64,10 @@ def make_boot_img():
         os.path.join(kernel_dir, 'arch/arm/boot/dts/bcm2711-rpi-4-b.dtb'),
         boot_dir
     )
+    shutil.copy(
+        os.path.join(kernel_dir, 'arch/arm/boot/dts/bcm2710-rpi-3-b.dtb'),
+        boot_dir
+    )
     #GPU驱动
     shutil.copy(
         os.path.join(kernel_dir, 'arch/arm/boot/dts/overlays/vc4-fkms-v3d.dtbo'),
