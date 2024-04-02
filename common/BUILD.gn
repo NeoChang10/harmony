@@ -18,7 +18,7 @@ action("rpi_bootimg") {
   deps=["../common/kernel:rpi_build_kernel"]
     script = "../common/build_bootimg.py"
     outputs = [ "$root_build_dir/packages/phone/images/boot.img" ]
-    args = [ rebase_path("$root_build_dir/packages/phone"),rebase_path("//device/board/iscas/$product_name/rpiboot") ]
+    args = [ rebase_path("$root_build_dir/packages/phone"),rebase_path("//device/board/rpi/$product_name/rpiboot") ]
 }
 
 
