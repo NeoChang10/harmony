@@ -54,11 +54,20 @@ def make_boot_img():
             os.path.join(kernel_dir, 'arch/arm/boot/zImage'),
             boot_dir
         )
+        shutil.copy(
+            os.path.join(script_dir, 'config32/config.txt'),
+            boot_dir
+        )
+
     if arch=="arm64":
         print("is arm64")
         shutil.copy(
         os.path.join(kernel_dir, 'arch/arm64/boot/Image.gz'),
         boot_dir
+        )
+        shutil.copy(
+            os.path.join(script_dir, 'config64/config.txt'),
+            boot_dir
         )
     shutil.copy(
         os.path.join(output_dir, 'images/ramdisk.img'),
