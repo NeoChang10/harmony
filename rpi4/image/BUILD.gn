@@ -20,7 +20,7 @@ action("rpi4_bootimg") {
   deps=["../kernel:rpi4_kernel"]
     script = "build_bootimg.py"
     outputs = [ "$output_dir/images/boot.img" ]
-    args = [ "bootimg", rebase_path(output_dir) ]
+    args = [ target_cpu, rebase_path(output_dir) ]
 }
 
 

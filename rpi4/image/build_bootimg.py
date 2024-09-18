@@ -17,18 +17,11 @@ import sys
 import os
 import os.path
 import subprocess
-import multiprocessing
 import shutil
-import pathlib
-
-os.environ['ARCH'] = 'arm64'
-os.environ['CROSS_COMPILE'] = 'arm-linux-gnueabihf-'
-
-defconfig = 'bcm2711_oh_defconfig'
 kernel_dir = os.path.abspath('../../out/kernel/OBJ/linux-5.10')
 script_dir = os.path.abspath(os.path.dirname(__file__))
 bootimgsize = 128*1024*1024
-command = sys.argv[1]
+arch = sys.argv[1]
 output_dir = sys.argv[2]
 
 def remove_file(name):
@@ -43,33 +36,6 @@ def remove_directory(name):
     except FileNotFoundError:
         pass
 
-def make_kernel_all():
-    oldpwd = os.getcwd()
-    os.chdir(kernel_dir)
-
-    zimage = os.path.join(output_dir, 'Image.gz')
-    remove_file(zimage)
-    nproc = multiprocessing.cpu_count()
-    subprocess.run(F'make {defconfig}', shell=True, check=True)
-    subprocess.run(F'make -j{nproc+1} Image.gz modules dtbs', shell=True, check=True)
-    shutil.copy(
-        os.path.join('arch/arm64/boot/Image.gz'),
-        zimage
-    )
-
-    os.chdir(oldpwd)
-
-def install_kernel_modules():
-    modules_dir = os.path.join(output_dir, 'kernel_modules')
-    remove_directory(modules_dir)
-    kolist = [
-        'drivers/net/wireless/broadcom/brcm80211/brcmfmac/brcmfmac.ko',
-        'drivers/net/wireless/broadcom/brcm80211/brcmutil/brcmutil.ko',
-    ]
-    os.mkdir(modules_dir)
-    for ko in kolist:
-        shutil.copy(os.path.join(kernel_dir, ko), modules_dir)
-
 def make_boot_img():
     oldpwd = os.getcwd()
     os.chdir(output_dir)
@@ -82,10 +48,18 @@ def make_boot_img():
     remove_file(imagefile)
     shutil.copytree(os.path.join(script_dir, 'rpi4boot'), boot_dir)
     os.mkdir(overlays_dir)
-    shutil.copy(
+    if arch=="arm":
+        print("is arm")
+        shutil.copy(
+            os.path.join(kernel_dir, 'arch/arm/boot/zImage'),
+            boot_dir
+        )
+    if arch=="arm64":
+        print("is arm64")
+        shutil.copy(
         os.path.join(kernel_dir, 'arch/arm64/boot/Image.gz'),
         boot_dir
-    )
+        )
     shutil.copy(
         os.path.join(output_dir, 'images/ramdisk.img'),
         boot_dir
@@ -125,9 +99,7 @@ def make_boot_img():
     os.chdir(oldpwd)
 
 command_table = {
-    'kernel': make_kernel_all,
-    'modules': install_kernel_modules,
     'bootimg': make_boot_img,
 }
 
-command_table[command]()
+command_table['bootimg']()
