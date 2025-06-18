@@ -14,13 +14,25 @@
 import("//build/config/clang/clang.gni")
 import("//build/ohos.gni")
 
-action("rpi_bootimg") {
-  deps=["../common/kernel:rpi_build_kernel"]
-    script = "../common/build_bootimg.py"
-    outputs = [ "$root_build_dir/packages/phone/images/boot.img" ]
-    args = [ rebase_path("$root_build_dir/packages/phone"),rebase_path("//device/board/rpi/$product_name/rpiboot") ]
-}
+# action("rpi_bootimg2") {
+#   deps=["../common/kernel:rpi_build_kernel"]
+#     script = "../common/build_bootimg.py"
+#     outputs = [ "$root_build_dir/packages/phone/images/boot1.img" ]
+#     args = [ rebase_path("$root_build_dir/packages/phone"),rebase_path("//device/board/rpi/$product_name/rpiboot") ]
+# }
 
+action("rpi_bootimg") {
+    script = "kernel/build_kernel.py"
+    outputs = [ "$root_build_dir/packages/phone/images/boot.img" ]
+    args = [
+      rebase_path("//"),
+      "arm64"
+    ]
+    # if (enable_ramdisk) {
+    #   args += [ "enable_ramdisk" ]
+    # }
+    print("kernel args=$args")
+}
 
 action("rpi_image") {
   deps = [ 
