@@ -40,7 +40,7 @@ src=root+"/kernel/linux/linux-5.10/"
 dst=root+"/out/kernel/linux-5.10/"
 
 patch1=root+"/kernel/linux/patches/linux-5.10"
-patch2=root+"/device/board/rpi/common/patch/rpi.patch"
+patch2=root+"/device/board/rpi/common/kernel/rpi.patch"
 
 dtbcopylist=["bcm2711-rpi-4-b.dtb","bcm2710-rpi-3-b.dtb"]
 dtbocopylist=["overlays/vc4-fkms-v3d.dtbo","overlays/rpi-ft5406.dtbo","overlays/rpi-backlight.dtbo","overlays/dwc2.dtbo"]
