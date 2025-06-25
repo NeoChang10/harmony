@@ -57,7 +57,7 @@ curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 | sudo tee /usr/local
 注意：repo init不能在系统根目录下执行
 
 ```
-repo init -u https://gitee.com/isrc_ohos/device_board_rpi.git -b OpenHarmony-5.0-Release  --no-repo-verify
+repo init -u https://gitee.com/isrc_ohos/device_board_rpi.git -b OpenHarmony-6.0-Beta1  --no-repo-verify
 
 repo sync -c
 

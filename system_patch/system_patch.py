@@ -14,6 +14,8 @@ def whitelist():
 
     addlist=["//device/soc/broadcom/bcm2711/hardware/display:display_gfx",
         "//device/soc/broadcom/bcm2711/hardware/display:libdisplay_buffer_vdi_impl",
+        "//device/soc/broadcom/bcm2711/hardware/display:libdisplay_buffer_vendor",
+        "//device/soc/broadcom/bcm2711/hardware/display:display_composer_vendor",
         "//device/soc/broadcom/bcm2711/hardware/display:libdisplay_composer_vdi_impl",
         "//device/soc/broadcom/common:ptgen",
         "//device/board/rpi/common/camera/pipeline_core:camera_pipeline_core",
@@ -30,9 +32,8 @@ def whitelist():
 
 
 whitelist()
+
 shutil.copy(PATCH_SRC_PATH+"/foundation/main_thread.cpp",PROJECT_ROOT+"/foundation/ability/ability_runtime/frameworks/native/appkit/app/main_thread.cpp")
 shutil.copy(PATCH_SRC_PATH+"/base/appspawn_adapter.cpp",PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp")
-shutil.copy(PATCH_SRC_PATH+"/applications/ohos.build",PROJECT_ROOT+"/applications/standard/hap/ohos.build")
-shutil.copy(PATCH_SRC_PATH+"/kernel/xhci.h",PROJECT_ROOT+"/kernel/linux/linux-5.10/drivers/usb/host/xhci.h")
 
 print("finish")

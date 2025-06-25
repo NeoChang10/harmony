@@ -55,3 +55,25 @@ action("rpi_image") {
     rebase_path("$root_build_dir/clang_x64/utils/utils")
   ]
 }
+
+action("rpi_image2") {
+  deps = [ 
+  # ":rpi_bootimg",
+  "//build/core/gn:images",
+  "//device/soc/broadcom/common:software_group"
+   ]
+  script = "../common/make_rpi_sdcard_imagesmall.py"
+  outputs = [ "$root_build_dir/packages/phone/images/rpi_image_small.img" ]
+  args = [
+    "--output",
+    rebase_path("$root_build_dir/packages/phone/images/rpi_image_small.img"),
+    "--userdata",
+    "1000M",
+    rebase_path("$root_build_dir/packages/phone/images/boot.img"),
+    rebase_path("$root_build_dir/packages/phone/images/rootfs_ext4.img"),
+    rebase_path("$root_build_dir/packages/phone/images/userfs_ext4.img"),
+    rebase_path("$root_build_dir/packages/phone/images/userdata_ext4.img"),
+    "--ptpath",
+    rebase_path("$root_build_dir/clang_x64/utils/utils")
+  ]
+}

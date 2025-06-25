@@ -21,7 +21,7 @@ import multiprocessing
 import shutil
 
 
-# root="/home/dy/rpi5.0"
+# root="/home/dy/ohos6.0"
 # arch="arm64"
 root=sys.argv[1]
 arch=sys.argv[2]
@@ -54,14 +54,13 @@ def copy_kernel():
         patch_kernel()
 
 def patch_kernel():
+    shutil.copy(root+"/device/board/rpi/common/kernel/xhci.h",dst+"drivers/usb/host/xhci.h")
     subprocess.run(F'bash {root}/drivers/hdf_core/adapter/khdf/linux/patch_hdf.sh {root} {dst} {patch1} common', shell=True, check=True)
     subprocess.run(F'patch -d {dst} -p1 < {patch2}', shell=True, check=True)
 
 def make_kernel():
     nproc = multiprocessing.cpu_count()
-    # if arch=="arm":
     shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig32",dst+"/arch/arm/configs/bcm2711_oh_defconfig")
-    # else:
     shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig64",dst+"/arch/arm64/configs/bcm2711_oh_defconfig")
     subprocess.run(F'make -C {dst} ARCH=arm CC={cc} CROSS_COMPILE={root}/prebuilts/gcc/linux-x86/arm/gcc-linaro-7.5.0-arm-linux-gnueabi/bin/arm-linux-gnueabi- {defconfig}', shell=True, check=True)
     dtbs="bcm2710-rpi-3-b.dtb bcm2711-rpi-4-b.dtb overlays/vc4-fkms-v3d.dtbo overlays/rpi-ft5406.dtbo overlays/rpi-backlight.dtbo overlays/dwc2.dtbo"
@@ -111,7 +110,6 @@ def make_boot_img():
             os.path.join(dst, 'arch/arm64/boot/Image.gz'),
             boot_dir
         )
-    # if(ramdisk=="enable_ramdisk"):
     shutil.copy(
         os.path.join(output_dir, 'images/ramdisk.img'),
         boot_dir
