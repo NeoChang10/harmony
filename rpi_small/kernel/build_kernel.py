@@ -123,7 +123,7 @@ def make_boot_img():
     )
 
     with open(imagefile_tmp, 'wb') as writer:
-        writer.truncate(32*1024*1024)
+        writer.truncate(128*1024*1024)
     subprocess.run(F'mkfs.vfat -F 32 {imagefile_tmp} -n BOOT', shell=True, check=True)
     subprocess.run(F'mcopy -i {imagefile_tmp} {boot_dir}/* ::/', shell=True, check=True)
     os.rename(imagefile_tmp, imagefile)
