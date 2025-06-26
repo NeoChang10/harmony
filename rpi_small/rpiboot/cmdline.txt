@@ -1,0 +1,1 @@
+console=serial0,115200 no_console_suspend root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline hardware=rpi4 rootwait ohos.boot.sn=0a20230726rpi

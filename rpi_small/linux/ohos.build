@@ -1,0 +1,13 @@
+{
+    "subsystem": "device_rpi_small",
+    "parts": {
+        "device_rpi_small": {
+            "module_list": [
+                "//device/board/rpi/rpi_small:rpi_bootimg_small"
+            ],
+            "test_list": [
+                "//device/board/rpi/rpi_small:rpi_image_small"    
+            ]
+        }
+    }
+}

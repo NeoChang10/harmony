@@ -1,0 +1,34 @@
+import("//build/config/clang/clang.gni")
+import("//build/ohos.gni")
+
+action("rpi_bootimg_small") {
+    script = "kernel/build_kernel.py"
+    outputs = [ "$root_build_dir/packages/phone/images/boot.img" ]
+    args = [
+      rebase_path("//"),
+      "arm64"
+    ]
+    print("kernel args=$args")
+}
+
+action("rpi_image_small") {
+  deps = [ 
+  ":rpi_bootimg_small",
+  "//build/core/gn:images",
+  "//device/soc/broadcom/common:software_group"
+   ]
+  script = "../common/make_rpi_sdcard_image.py"
+  outputs = [ "$root_build_dir/rpi_image_small.img" ]
+  args = [
+    "--output",
+    rebase_path("$root_build_dir/rpi_image_small.img"),
+    "--userdata",
+    "1000M",
+    rebase_path("$root_build_dir/boot.img"),
+    rebase_path("$root_build_dir/rootfs_ext4.img"),
+    rebase_path("$root_build_dir/userfs_ext4.img"),
+    rebase_path("$root_build_dir/userdata_ext4.img"),
+    "--ptpath",
+    rebase_path("$root_build_dir/clang_x64")
+  ]
+}
