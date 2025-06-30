@@ -60,9 +60,9 @@ def patch_kernel():
 
 def make_kernel():
     nproc = multiprocessing.cpu_count()
-    shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig32",dst+"/arch/arm/configs/bcm2711_oh_defconfig")
-    shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig64",dst+"/arch/arm64/configs/bcm2711_oh_defconfig")
-    shutil.copy(root+"/device/board/rpi/common/kernel/configs/rpioh.config",dst+"/arch/arm64/configs/rpioh.config")
+    shutil.copy(root+"/device/board/rpi/rpi_small/kernel/configs/bcm2711_oh_defconfig32",dst+"/arch/arm/configs/bcm2711_oh_defconfig")
+    shutil.copy(root+"/device/board/rpi/rpi_small/kernel/configs/bcm2711_oh_defconfig64",dst+"/arch/arm64/configs/bcm2711_oh_defconfig")
+    shutil.copy(root+"/device/board/rpi/rpi_small/kernel/configs/rpioh.config",dst+"/arch/arm64/configs/rpioh.config")
     subprocess.run(F'make -C {dst} ARCH=arm CC={cc} CROSS_COMPILE={root}/prebuilts/gcc/linux-x86/arm/gcc-linaro-7.5.0-arm-linux-gnueabi/bin/arm-linux-gnueabi- {defconfig}', shell=True, check=True)
     dtbs="bcm2710-rpi-3-b.dtb bcm2711-rpi-4-b.dtb overlays/vc4-fkms-v3d.dtbo overlays/rpi-ft5406.dtbo overlays/rpi-backlight.dtbo overlays/dwc2.dtbo"
     subprocess.run(F'make -C {dst} ARCH=arm CC={cc} CROSS_COMPILE={crosscompile} -j{nproc+1} {dtbs}', shell=True, check=True)
