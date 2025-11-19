@@ -55,6 +55,7 @@ def copy_kernel():
 
 def patch_kernel():
     shutil.copy(root+"/device/board/rpi/common/kernel/xhci.h",dst+"drivers/usb/host/xhci.h")
+    shutil.copy(root+"/device/board/rpi/common/kernel/mmio.c",dst+"arch/arm64/kvm/mmio.c")
     subprocess.run(F'bash {root}/drivers/hdf_core/adapter/khdf/linux/patch_hdf.sh {root} {dst} {patch1} common', shell=True, check=True)
     subprocess.run(F'patch -d {dst} -p1 < {patch2}', shell=True, check=True)
 

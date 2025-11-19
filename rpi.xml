@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <remote fetch="https://gitee.com/isrc_ohos" name="isrc" review="https://gitee.com/isrc_ohos"/>
-  <project name="device_board_rpi" path="device/board/rpi" groups="default,ohos:mini,ohos:small,ohos:standard,ohos:chipset" remote="isrc" revision="OpenHarmony-6.0-Beta1"/>
-  <project name="device_soc_broadcom" path="device/soc/broadcom" groups="default,ohos:standard,ohos:chipset" remote="isrc" revision="OpenHarmony-6.0-Beta1"/>
-  <project name="vendor_iscas" path="vendor/iscas" groups="default,ohos:mini,ohos:standard,ohos:chipset" remote="isrc" revision="OpenHarmony-6.0-Beta1"/>
+  <project name="device_board_rpi" path="device/board/rpi" groups="default,ohos:mini,ohos:small,ohos:standard,ohos:chipset" remote="isrc" revision="OpenHarmony-6.0-Release"/>
+  <project name="device_soc_broadcom" path="device/soc/broadcom" groups="default,ohos:standard,ohos:chipset" remote="isrc" revision="OpenHarmony-6.0-Release"/>
+  <project name="vendor_iscas" path="vendor/iscas" groups="default,ohos:mini,ohos:standard,ohos:chipset" remote="isrc" revision="OpenHarmony-6.0-Release"/>
 </manifest>
