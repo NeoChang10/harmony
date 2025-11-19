@@ -1901,9 +1901,9 @@ struct xhci_hcd {
 
 	unsigned int		num_active_eps;
 	unsigned int		limit_active_eps;
-#define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(45)
-#define XHCI_ZHAOXIN_HOST	BIT_ULL(46)
-#define XHCI_LWP_QUIRK		BIT_ULL(47)	
+#define XHCI_ZHAOXIN_TRB_FETCH	BIT_ULL(48)
+#define XHCI_ZHAOXIN_HOST	BIT_ULL(49)
+#define XHCI_LWP_QUIRK		BIT_ULL(50)	
 	struct xhci_port	*hw_ports;
 	struct xhci_hub		usb2_rhub;
 	struct xhci_hub		usb3_rhub;

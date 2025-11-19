@@ -143,9 +143,6 @@ int SetSelinuxCon(const AppSpawnMgr *content, const AppSpawningCtx *property)
     HapDomainInfo hapDomainInfo;
     SetHapDomainInfo(&hapDomainInfo, property, msgDomainInfo, appInfo);
     int32_t ret = hapContext.HapDomainSetcontext(hapDomainInfo);
-    if (CheckAppMsgFlagsSet(property, APP_FLAGS_ASANENABLED)) {
-        ret = 0;
-    }
     APPSPAWN_CHECK(ret == 0, return APPSPAWN_ACCESS_TOKEN_INVALID,
         "Set domain context failed, ret: %{public}d %{public}s", ret, GetProcessName(property));
     APPSPAWN_LOGV("SetSelinuxCon success for %{public}s", GetProcessName(property));
@@ -164,9 +161,7 @@ int SetUidGidFilter(const AppSpawnMgr *content)
         ret = SetSeccompPolicyWithName(INDIVIDUAL, NWEBSPAWN_NAME);
     } else {
 #ifdef SECCOMP_PRIVILEGE
-        if (IsDeveloperModeOpen()) {
             return 0;
-        }
 #endif
         ret = SetSeccompPolicyWithName(INDIVIDUAL, APPSPAWN_NAME);
     }
@@ -219,6 +214,11 @@ int SetSeccompFilter(const AppSpawnMgr *content, const AppSpawningCtx *property)
     // Set seccomp policy for atomic service process.
     if (CheckAppMsgFlagsSet(property, APP_FLAGS_ATOMIC_SERVICE) != 0) {
         appName = APP_ATOMIC;
+    }
+
+    // Set seccomp policy for processes that have ohos.permission.ALLOW_IOURING.
+    if (CheckAppMsgFlagsSet(property, APP_FLAGS_ALLOW_IOURING) != 0) {
+        appName = APP_ALLOW_IOURING;
     }
 
     if (!SetSeccompPolicyWithName(type, appName)) {
