@@ -19,6 +19,7 @@ def whitelist():
         "//device/soc/broadcom/bcm2711/hardware/display:libdisplay_composer_vdi_impl",
         "//device/soc/broadcom/common:ptgen",
         "//vendor/iscas/common/sample/nfc:nfcserver",
+        "//vendor/iscas/rpi4/bluetooth:libbt_vendor",
         "//device/board/rpi/common/camera/pipeline_core:camera_pipeline_core",
         "//device/board/rpi/common/camera:camera_host_vdi_impl_1.0"]
 

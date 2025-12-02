@@ -57,7 +57,7 @@ curl https://gitee.com/oschina/repo/raw/fork_flow/repo-py3 | sudo tee /usr/local
 注意：repo init不能在系统根目录下执行
 
 ```
-repo init -u https://gitee.com/isrc_ohos/device_board_rpi.git -b OpenHarmony-6.0-Beta1  --no-repo-verify
+repo init -u https://gitee.com/isrc_ohos/device_board_rpi.git -b OpenHarmony-6.0-Release  --no-repo-verify
 
 repo sync -c
 
@@ -82,7 +82,7 @@ repo forall -c 'git lfs pull'
 进入源码根目录，执行如下命令进行版本编译。
 第1步：执行编译前的脚本
 ```
-device/board/rpi/system_patch/system_patch.sh
+device/board/rpi/system_patch/system_patch.py
 ```
 第2步：编译系统镜像
 ```
