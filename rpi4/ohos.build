@@ -3,8 +3,6 @@
     "parts": {
         "device_rpi4": {
             "module_list": [
-                "//vendor/iscas/${product_name}/bluetooth:libbt_vendor",
-                "//vendor/iscas/${product_name}/bluetooth:bt_vendor.conf",
                 "//device/board/rpi/${device_name}:rpi4_group"
             ],
             "test_list": [

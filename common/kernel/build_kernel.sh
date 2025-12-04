@@ -93,7 +93,7 @@ function copy_and_patch_kernel_source()
 
     #kernel patch
     # patch -p1 < ${KERNEL_PATCH}
-    patch -p1 < ${KERNEL_PATCH_PATH}/hungtask.patch
+    # patch -p1 < ${KERNEL_PATCH_PATH}/hungtask.patch
 
 
     #newip
