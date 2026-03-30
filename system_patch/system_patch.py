@@ -3,11 +3,11 @@ import os
 import os.path
 import json
 import shutil
-PROJECT_ROOT="/ohos/rpi6.1"
-PATCH_SRC_PATH=PROJECT_ROOT+"/device/board/rpi/system_patch"
+PROJECT_ROOT="/ohos"
+PATCH_SRC_PATH="/ohos/device/board/rpi/system_patch"
 
 def whitelist():
-    whitelist_path=PROJECT_ROOT+'/build/compile_standard_whitelist.json'
+    whitelist_path='/ohos/build/compile_standard_whitelist.json'
 
     with open(whitelist_path, 'r') as file:
         data = json.load(file)
@@ -38,10 +38,8 @@ whitelist()
 
 # shutil.copy(PROJECT_ROOT+"/foundation/ability/ability_runtime/frameworks/native/appkit/app/main_thread.cpp",PATCH_SRC_PATH+"/foundation/main_thread.cpp")
 # shutil.copy(PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp",PATCH_SRC_PATH+"/base/appspawn_adapter.cpp")
-# shutil.copy(PROJECT_ROOT+"/foundation/multimedia/drm_framework/bundle.json",PATCH_SRC_PATH+"bundle.json")
 
 shutil.copy(PATCH_SRC_PATH+"/foundation/main_thread.cpp",PROJECT_ROOT+"/foundation/ability/ability_runtime/frameworks/native/appkit/app/main_thread.cpp")
 shutil.copy(PATCH_SRC_PATH+"/base/appspawn_adapter.cpp",PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp")
-shutil.copy(PROJECT_ROOT+"/foundation/bundle.json",PATCH_SRC_PATH+"/foundation/multimedia/drm_framework/bundle.json")
-shutil.copy(PROJECT_ROOT+"/foundation/app_domain_verify_mgr_service.cpp",PATCH_SRC_PATH+"/foundation/bundlemanager/app_domain_verify/services/src/manager/core/app_domain_verify_mgr_service.cpp")
+
 print("finish")
