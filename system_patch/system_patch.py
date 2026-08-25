@@ -3,7 +3,7 @@ import os
 import os.path
 import json
 import shutil
-PROJECT_ROOT="/ohos/rpi6.1"
+PROJECT_ROOT=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../.."))
 PATCH_SRC_PATH=PROJECT_ROOT+"/device/board/rpi/system_patch"
 
 def whitelist():
@@ -34,14 +34,16 @@ def whitelist():
 
 
 whitelist()
+#手动执行/
+#apt-get install autoconf automake libtool cmake  
 
-
-# shutil.copy(PROJECT_ROOT+"/foundation/ability/ability_runtime/frameworks/native/appkit/app/main_thread.cpp",PATCH_SRC_PATH+"/foundation/main_thread.cpp")
-# shutil.copy(PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp",PATCH_SRC_PATH+"/base/appspawn_adapter.cpp")
-# shutil.copy(PROJECT_ROOT+"/foundation/multimedia/drm_framework/bundle.json",PATCH_SRC_PATH+"bundle.json")
+# shutil.copy(PROJECT_ROOT+"/foundation/ability/ability_runtime/frameworks/native/appkit/app/main_thread.cpp",PATCH_SRC_PATH+"/foundation/main_thread1.cpp")
+# shutil.copy(PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp",PATCH_SRC_PATH+"/base/appspawn_adapter1.cpp")
+# shutil.copy(PROJECT_ROOT+"/foundation/multimedia/drm_framework/bundle.json",PATCH_SRC_PATH+"/foundation/bundle1.json")
+# shutil.copy(PROJECT_ROOT+"/foundation/bundlemanager/app_domain_verify/services/src/manager/core/app_domain_verify_mgr_service.cpp",PATCH_SRC_PATH+"/foundation/app_domain_verify_mgr_service1.cpp")
 
 shutil.copy(PATCH_SRC_PATH+"/foundation/main_thread.cpp",PROJECT_ROOT+"/foundation/ability/ability_runtime/frameworks/native/appkit/app/main_thread.cpp")
-shutil.copy(PATCH_SRC_PATH+"/base/appspawn_adapter.cpp",PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp")
-shutil.copy(PROJECT_ROOT+"/foundation/bundle.json",PATCH_SRC_PATH+"/foundation/multimedia/drm_framework/bundle.json")
-shutil.copy(PROJECT_ROOT+"/foundation/app_domain_verify_mgr_service.cpp",PATCH_SRC_PATH+"/foundation/bundlemanager/app_domain_verify/services/src/manager/core/app_domain_verify_mgr_service.cpp")
+shutil.copy(PATCH_SRC_PATH+"/base/appspawn_adapter.cpp",PROJECT_ROOT+"/base/startup/appspawn/modules/common/appspawn_adapter.cpp")#影响编译
+shutil.copy(PATCH_SRC_PATH+"/foundation/bundle.json",PROJECT_ROOT+"/foundation/multimedia/drm_framework/bundle.json")
+shutil.copy(PATCH_SRC_PATH+"/foundation/app_domain_verify_mgr_service.cpp",PROJECT_ROOT+"/foundation/bundlemanager/app_domain_verify/services/src/manager/core/app_domain_verify_mgr_service.cpp")
 print("finish")
