@@ -21,10 +21,10 @@ import multiprocessing
 import shutil
 
 
-root=os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../.."))
-arch="arm64"
-# root=sys.argv[1]
-# arch=sys.argv[2]
+# root="/home/dy/ohos6.0"
+# arch="arm64"
+root=sys.argv[1]
+arch=sys.argv[2]
 
 defconfig="bcm2711_oh_defconfig"
 kernel_build_root = root+"/out/kernel/"
@@ -40,9 +40,7 @@ src=root+"/kernel/linux/linux-5.10/"
 dst=root+"/out/kernel/linux-5.10/"
 
 patch1=root+"/kernel/linux/patches/linux-5.10"
-
-patchroot=root+"/device/board/rpi/common/kernel/patches/"
-patch2=patchroot+"/rpi.patch"
+patch2=root+"/device/board/rpi/common/kernel/rpi.patch"
 
 dtbcopylist=["bcm2711-rpi-4-b.dtb","bcm2710-rpi-3-b.dtb"]
 dtbocopylist=["overlays/vc4-fkms-v3d.dtbo","overlays/rpi-ft5406.dtbo","overlays/rpi-backlight.dtbo","overlays/dwc2.dtbo"]
@@ -55,35 +53,17 @@ def copy_kernel():
         shutil.copytree(src,dst)
         patch_kernel()
 
-def common_modules(modpath):
-    subprocess.run(F'bash {root}/kernel/linux/common_modules/{modpath} {root} {dst} rpi4 linux-5.10', shell=True, check=True)
-
 def patch_kernel():
-    shutil.copy(patchroot+"xhci.h",dst+"drivers/usb/host/xhci.h")
-    shutil.copy(patchroot+"mmio.c",dst+"arch/arm64/kvm/mmio.c")
-    shutil.copy(patchroot+"match.h",dst+"security/apparmor/include/match.h")
-    shutil.copy(patchroot+"match.c",dst+"security/apparmor/match.c")
-    shutil.copy(patchroot+"xfrm_state.c",dst+"net/xfrm/xfrm_state.c")
-    shutil.copy(patchroot+"tracepoint.c",dst+"kernel/tracepoint.c")
-    shutil.copy(patchroot+"fb.h",dst+"include/linux/fb.h")
-    shutil.copy(patchroot+"node.c",dst+"fs/f2fs/node.c")
-    shutil.copy(patchroot+"fbcon_rotate.c",dst+"drivers/video/fbdev/core/fbcon_rotate.c")
-    shutil.copy(patchroot+"fb_defio.c",dst+"drivers/video/fbdev/core/fb_defio.c")
-    
+    shutil.copy(root+"/device/board/rpi/common/kernel/xhci.h",dst+"drivers/usb/host/xhci.h")
+    shutil.copy(root+"/device/board/rpi/common/kernel/mmio.c",dst+"arch/arm64/kvm/mmio.c")
     subprocess.run(F'bash {root}/drivers/hdf_core/adapter/khdf/linux/patch_hdf.sh {root} {dst} {patch1} common', shell=True, check=True)
-    # subprocess.run(F'bash {root}/device/board/rpi/common/kernel/build_kernel.sh {root}', shell=True, check=True)
-    for modpath in ["newip/apply_newip.sh","tzdriver/apply_tzdriver.sh","xpm/apply_xpm.sh","container_escape_detection/apply_ced.sh","memory_security/apply_hideaddr.sh","qos_auth/apply_qos_auth.sh","ucollection/apply_ucollection.sh","code_sign/apply_code_sign.sh"]:
-        common_modules(modpath)
-
+    subprocess.run(F'bash {root}/device/board/rpi/common/kernel/build_kernel.sh {root}', shell=True, check=True)
     subprocess.run(F'patch -d {dst} -p1 < {patch2}', shell=True, check=True)
-
-    shutil.copy(patchroot+"sdio.c",dst+"drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c")
-    shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig32",dst+"/arch/arm/configs/bcm2711_oh_defconfig")
-    shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig64",dst+"/arch/arm64/configs/bcm2711_oh_defconfig")
 
 def make_kernel():
     nproc = multiprocessing.cpu_count()
-
+    shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig32",dst+"/arch/arm/configs/bcm2711_oh_defconfig")
+    shutil.copy(root+"/device/board/rpi/common/kernel/configs/bcm2711_oh_defconfig64",dst+"/arch/arm64/configs/bcm2711_oh_defconfig")
     subprocess.run(F'make -C {dst} ARCH=arm CC={cc} CROSS_COMPILE={root}/prebuilts/gcc/linux-x86/arm/gcc-linaro-7.5.0-arm-linux-gnueabi/bin/arm-linux-gnueabi- {defconfig}', shell=True, check=True)
     dtbs="bcm2710-rpi-3-b.dtb bcm2711-rpi-4-b.dtb overlays/vc4-fkms-v3d.dtbo overlays/rpi-ft5406.dtbo overlays/rpi-backlight.dtbo overlays/dwc2.dtbo"
     subprocess.run(F'make -C {dst} ARCH=arm CC={cc} CROSS_COMPILE={crosscompile} -j{nproc+1} {dtbs}', shell=True, check=True)
